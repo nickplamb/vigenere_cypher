@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <p>Upon inspection of the ciphertext, we see that there are a few digraphs repeated, namely DS, SZ, and ZO. It is statistically unlikely that all of
+    these would arise by random chance; the odds are that repeated digraphs in the ciphertext correspond to repetitions in the plaintext. If that is
+    the case, the digraphs must be encoded by the same section of the key both times. Therefore, the length of the key is a factor of the distance in
+    the text between the repetitions.</p>
+  <form id="encrypt-form">
+    <label for="text">Text</label>
+    <textarea id="text" rows="4"
+      cols="30">stzywjqtpnhemrzqhdcgtavapxpihscwpphdyxessncecpobcaotunytsdfanileszlexpzubwdkojbdztheqwelheqxtnohjcfyzeiiwjhdyxlwzkdxspgausfwrwpmdppupeyociallyqarlpzrzqecphdyxcpdayxporeevlavogressygtspfpcbencnpidacjbxzcslcxtewklwtyhdctwlwjriiewbrlleworlpnoocxspreevlavokydepacrnzrabfjevaqexpgaaxtzbkdxspyawfzevpgqpdhdcvpqcncxspzalkescbrlpvsugwlqoyrscztpfiotgpyrnpwjrlpestrfpekacressnctpewpgsyd</textarea><br />
+    <label for="key">key</label>
+    <input type="text" id="key"><br />
+
+    <label for="encryptRadio">Encrypt
+      <input id="encryptRadio" value="encrypt" type="radio" name="cypherDirection">
+    </label>
+    <label for="decryptRadio">Decrypt
+      <input id="decryptRadio" value="decrypt" type="radio" name="cypherDirection">
+    </label>
+    <label for="breakRadio">Break
+      <input id="breakRadio" value="crack" type="radio" name="cypherDirection" checked>
+    </label>
+    <br />
+    <button type="submit">
+      Go!
+    </button>
+  </form>
+
+  <h3 id="cyphe-header"></h3>
+  <div id="cypher-text"></div>
+
+  <table id="factorsTable">
+    <thead>
+      <tr id="factorsTHead">
+        <th>trigraph</th>
+        <th>Distance</th>
+      </tr>
+    </thead>
+    <tbody id="factorsTBody">
+
+    </tbody>
+  </table>
+
+  <script src="./js/scripts.js"></script>
+</body>
+
+</html>

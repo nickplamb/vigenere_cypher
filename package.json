@@ -1,0 +1,11 @@
+{
+  "name": "vigenere_cypher",
+  "version": "0.1.0",
+  "description": "A utility for encoding, decoding, and cracking the Vigenere Cypher",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nick Lamb",
+  "license": "ISC"
+}
