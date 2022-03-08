@@ -10,46 +10,102 @@
 </head>
 
 <body>
-  <p>Upon inspection of the ciphertext, we see that there are a few digraphs repeated, namely DS, SZ, and ZO. It is statistically unlikely that all of
-    these would arise by random chance; the odds are that repeated digraphs in the ciphertext correspond to repetitions in the plaintext. If that is
-    the case, the digraphs must be encoded by the same section of the key both times. Therefore, the length of the key is a factor of the distance in
-    the text between the repetitions.</p>
-  <form id="encrypt-form">
-    <label for="text">Text</label>
-    <textarea id="text" rows="4"
-      cols="30">stzywjqtpnhemrzqhdcgtavapxpihscwpphdyxessncecpobcaotunytsdfanileszlexpzubwdkojbdztheqwelheqxtnohjcfyzeiiwjhdyxlwzkdxspgausfwrwpmdppupeyociallyqarlpzrzqecphdyxcpdayxporeevlavogressygtspfpcbencnpidacjbxzcslcxtewklwtyhdctwlwjriiewbrlleworlpnoocxspreevlavokydepacrnzrabfjevaqexpgaaxtzbkdxspyawfzevpgqpdhdcvpqcncxspzalkescbrlpvsugwlqoyrscztpfiotgpyrnpwjrlpestrfpekacressnctpewpgsyd</textarea><br />
-    <label for="key">key</label>
-    <input type="text" id="key"><br />
+  <div class="body-wrapper">
 
-    <label for="encryptRadio">Encrypt
-      <input id="encryptRadio" value="encrypt" type="radio" name="cypherDirection">
-    </label>
-    <label for="decryptRadio">Decrypt
-      <input id="decryptRadio" value="decrypt" type="radio" name="cypherDirection">
-    </label>
-    <label for="breakRadio">Break
-      <input id="breakRadio" value="crack" type="radio" name="cypherDirection" checked>
-    </label>
-    <br />
-    <button type="submit">
-      Go!
-    </button>
-  </form>
+    <header>
+      <h1>Vigenere Cypher Tools</h1>
+    </header>
+    <div class="main-wrapper">
 
-  <h3 id="cyphe-header"></h3>
-  <div id="cypher-text"></div>
+    </div>
+    <main>
+      <section id="form-wrapper" aria-labelledby="encrypt-form__label">
+        <h2 id="encrypt-form__label">Enter your encrypted or plain text here.</h2>
+        <form id="encrypt-form">
+          <div class="form-group">
+            <label for="text">Text</label>
+            <textarea id="text" rows="8" cols="50">meet me in the 5th street tunnel at 3:27 pm and bring $5397 with you.</textarea>
+          </div>
+          <div class="form-group">
+            <label for="key">key</label>
+            <input type="text" id="key"><br />
+          </div>
 
-  <table id="factorsTable">
-    <thead>
-      <tr id="factorsTHead">
-        <th>trigraph</th>
-        <th>Distance</th>
-      </tr>
-    </thead>
-    <tbody id="factorsTBody">
+          <div class="radio-group">
+            <div class="radio-button">
+              <input id="encryptRadio" value="encrypt" type="radio" name="cypherDirection">
+              <label for="encryptRadio">Encrypt</label>
+            </div>
 
-    </tbody>
-  </table>
+            <div class="radio-button">
+              <input id="decryptRadio" value="decrypt" type="radio" name="cypherDirection">
+              <label for="decryptRadio">Decrypt</label>
+            </div>
+
+            <div class="radio-button">
+              <input id="breakRadio" value="crack" type="radio" name="cypherDirection" checked>
+              <label for="breakRadio">Break</label>
+            </div>
+          </div>
+          <div class="button-container">
+            <button type="submit">Go!</button>
+            <button id="clear">Clear</button>
+          </div>
+        </form>
+      </section>
+      <section aria-labelledby="result-header">
+        <h3 id="result-header">Results</h3>
+        <h4 id="cypher-header"></h4>
+        <p id="cypher-text"></p>
+
+        <div id="test"></div>
+
+        <p class="possible-results"></p>
+
+      </section>
+
+    </main>
+    <aside id="aside">
+      <p>
+        So far the break cypher functionality only works for cypher texts that are about 250+ characters long or more depending on the key length.
+      </p>
+      <p>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="http://cs.wellesley.edu/~fturbak/codman/letterfreq.html">English letter frequencies</a></li>
+        <li><a href="https://www.nku.edu/~christensen/1402%20Friedman%20test%202.pdf">Friedman test</a></li>
+        <li><a href="https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/Vig-IOC.html">Index of coincidence equation</a></li>
+        <li><a href="http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/">Chi-squared equation for determining
+            ceaser shift offset</a></li>
+        <li><a href="https://www.cs.purdue.edu/homes/ninghui/courses/Fall05/lectures/355_Fall05_lect04.pdf">Further information</a></li>
+      </ul>
+      </p>
+      <p>meet me in the 5th street tunnel at 3:27 pm and bring $5397 with you.</p>
+      <p class="test-text">
+        nsmekympgwesmtkbmsbvgojzvmdvnwycqaklszvmdvnwycqakftagqtbvcdtkympgocanzfwrgqpyoyffgtxfsejoaigfbueemdmfimesxysjqtmgfmolnxwjagfthtsmdpglhycgfhxezunjrvvusirokoozdmvwgjhvdmbpspcgglhmwxtelvvamleidhvvpagfktfbuiutfeatmjofiwyhzfgtanmtcxmmqqhfbzzgmjsomqzfhwottixxspbageeqsgasbvwaowaxkfhyalwqfgtmqqhfbzzgmjsomqzfhwijqdmjstptqxrrobqavqbfswyphiqcumukbsnwiipjbkunmjsuobrvhxhfrpkqudfafmqlocanzvvqswhxhnbktevcgqpnnxljpvfwxgbmupyiwjgktevnwycmewvhciqfkqafimcvhawfgskqizeiahrwhyqtbosfbsrrwtojoegfhtfzbywjwjgsxfhaczrenyvvfixchoiiztltbjtiinshftrzhshjxetfqxjuoiuxaletvnwycbuiutikqoguwsibgllxavmnlvvmubuibffvmleqkqewapbtbvmtmgabuiahwmspmrxpcfbtyszjrkasxgcfimegonasqrlqbfimesxysfdrxesuwmnrbkciyoycrhjkrfhyowdofqhtfzfeiysifhxecyqmgmwncetaluhmsbrhryvvdwbusxbbrvfqwdnekukavtqfhfpcqthnsmsvsvrrdiqvbqiedwzthywkarloweuixivlwmunzvvqnipsqxwuqrtdzqblieqyoxqcekanfzfeujijgaenmsjdrrdqwdutxfoypcaxrkhzyemqjutcnpodweepxehfimesxyswdofifavvqphascneyqfqcmvrjxshgelvsdflfthjrtxifdwzhunmqffkuceggbfmqgonasunzudqflpplrpzzgpkhtuebpdssjwiwugbfmqgonasqrlkbybauldiggqewkgfimbrodtroththtbbpsxshjuntudqflpplrpzzgxxszuqgmvycgdoigqxjuomqlweihbevopuciwnhfdsvnwycifpllvkxyhxsdiiaklsurfiyuqofzgminsuhekvwobtcmvysnutadsxbgvrjkffytaghaqavrfjhyqiyuqtbapvhfhvpalvozeiehzfzcxarqifgwexkjkfdlwtsopzqxkjqcumukbsuqzilxrvfekowzflocpjqymnbeoxftrgwwwtfifkbsuprgrrdvfimqfeuzvohxojiimevmubuiwtdfrtagfavbrqdsirxlrvwyjvtadxocxopgrmtioefpigeoewhupvhrwnzreoylizfqahrssjuagezunjrvyjrudijnsaoiehrmccpsmjsyfvfqhysiepxgripzyhujqfddlgqaolfwhyokuflekastqgxugrxtecyqdqgcxxofzmtapdfixmqlhyqrxecdenespyvvreencijvqsqjgzmnvnwycmeolwcdmldchucqawhhcepstvhtfanqhiopkuekowbxymqftiamkwgejiusoigktepqaqoaziwjfjbexfkastqvhhcipamusopvqwzmwttwtugquigmixqvgrhrsmokuepuwfzsakdejvzsvhcnduluwmpvasyjasqrmjsffizwsjsupilewbmqaizfgzztkqrgdmqevfavpaeuvaxknwhkcifhxycdmlpldrdzanljwbjbvwdwscmyvqabfbvxltbnutavsmnabjwmfvqtaghqbufeujarpenrcrbbuphysjafmjseburwhcpvrokghtfarxrkflxelyoejvgvriitqdmjsffizwkfrkabxowjflfiajgktekcqqjauioicefhxycdmleiftfuiaengbmqgmqycwauknozfagarkciqavjhqbuglhkwiettvvxfbrvdhsjfoakhfimoywycemtmjsfpxbjwmsnmlechiiqplstweftaggqdwahdyvcqtxezunjfxkjgvoogfzqhbbvhqsreemjsfiqehdsrwuntnofitrxhbvfeeykbmmjhxwtbdmrduhtfbbxdqhzyevkhmuqbrqjsuqduqixememqlaruntthudtrfrzzuqrbpumcwhpgjfzzgvqabfbvxltbtanlkgftwsgonasunzqbeiwexzfzcewbvvavboiofmiapxuwfeqsjhwgwdofnsmekympgweschodquqgmrsgzztachfimpplrpvdctpofumztwfffgtxocdfbueqtbtqbnvzulmyidiqcumukbsuprcffbeatlgsauprvfqwdnekuczuprfrzzuqrhtfqdmvzhkffyomjsdtiacitfdaftfjudmnjwjfktevqabfbvxltbymslvodumqmqntjoagfcxzucmfhcdbemkhupvfgonasqrlcfqhqiiqfhzyehhauocgivycxuvxcgybvlewysdbtlcgfimladshvmcaecyqmgmwtfjechtsutlrxhwazzewdmfimbzhwocxnnopqswsvrzhvefbpweimqeqihyqnnopqswsewysdbtlpsqemqvdsyzzgbutgsbuiuxispiokrqejlilyvvdaegoptblphxqfdigigktbrqrwkzfhmjsgtmbjdgcegsaqzpjvnphfrjfyeggopzvrjxmjfefvvqdtvqejfzeapcfpflnghwhrungwanfzbjstwefsyqfqbkulrqrktertsmdpjmwmhyqhbivqtbcslshjmwttrqenbvdkweusagrdpcgiwmszrsvcbpptlqsnqtamighuuqbrvzgvmbhpieiwyhffzcqdmjslpvrxkjblybxtcrbbgipuhjfokgooibuictbvufkgooimqjxwhyqrlvfmuqsmhxhyqchodquqgsux
+      </p>
+      <p>combined format</p>
+      <!--   <p class="test-text">stzywjqtpnhemrzqhdcgtavapxpihscwpphdyxessncecpobcaotunytsdfanileszlexpzubwdkojbdztheqwelheqxtnohjcfyzeiiwjhdyxlwzkdxspgausfwrwpmdppupeyociallyqarlpzrzqecphdyxcpdayxporeevlavogressygtspfpcbencnpidacjbxzcslcxtewklwtyhdctwlwjriiewbrlleworlpnoocxspreevlavokydepacrnzrabfjevaqexpgaaxtzbkdxspyawfzevpgqpdhdcvpqcncxspzalkescbrlpvsugwlqoyrscztpfiotgpyrnpwjrlpestrfpekacressnctpewpgsyd</p> -->
+    </aside>
+    <footer>
+      <h2>Thanks!</h2>
+    </footer>
+  </div>
+
+  <!--   <table id="factorsTable">
+      <thead>
+        <tr id="factorsTHead">
+          <th>trigraph</th>
+          <th>Distance</th>
+        </tr>
+      </thead>
+      <tbody id="factorsTBody">
+  
+      </tbody>
+      <tfoot id="factorsTFooter">
+  
+      </tfoot>
+    </table> -->
 
   <script src="./js/scripts.js"></script>
 </body>

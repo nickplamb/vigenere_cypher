@@ -1,8 +1,115 @@
-table, th, td {
-  border: 1px solid black;
+:root {
+  --primary-font-size: 16px;
+  --header-bg-color: lightgray;
 }
 
-th {
-  min-width: 25px;
-  padding: 5px;
+/* * {
+  margin: 0;
+  padding: 0;
+} */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-size: var(--primary-font-size);
+}
+.body-wrapper {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 6fr 3fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 0.5rem;
+}
+
+button {
+  width: 5rem;
+  height: 2rem;
+}
+
+header {
+  grid-column: 1 / span 4;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  background-color: var(--header-bg-color);
+  /*   margin-bottom: 3rem; */
+}
+
+main {
+  grid-column: 2 / 3;
+  grid-row: 2;
+  /*   background-color: green; */
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+p {
+  width: 100%;
+}
+
+#form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.radio-group {
+  margin-top: 1rem;
+}
+.radio-group label {
+  /*   display: block; */
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 0.7rem;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 1rem;
+}
+
+#cypher-text {
+  max-height: 100%;
+  word-break: break-word;
+  /*   overflow-x: hidden; */
+  /*   overflow-y: scroll; */
+}
+
+aside {
+  grid-column: 3 / 4;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  /*   background-color: red; */
+}
+
+footer {
+  grid-column: 1 / span 4;
+  grid-row: 3;
+  background-color: var(--header-bg-color);
+  height: 4rem;
+}
+
+.test-text {
+  margin: 1rem 0;
+  max-height: 50vh;
+  word-break: break-word;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
