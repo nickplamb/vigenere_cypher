@@ -8,6 +8,8 @@ function handleSubmit(e) {
   let dirtyCypherText = formElements.text.value;
   let dirtyCypherKey = formElements.key.value
   
+  replaceNumbers(dirtyCypherText);
+  
   let cypherResultObject = handleCypher(dirtyCypherText, dirtyCypherKey, cypherDirection);
   
   const encryptedResultsHeader = document.getElementById("cypher-header");
@@ -33,6 +35,143 @@ function handleSubmit(e) {
   encryptedResultField.appendChild(keyElement);
   // displayResults( cypherResultObject.text, cypherResultObject.key, cypherDirection)
   
+}
+
+function replaceNumbers(cypherText) {
+  cypherText.replaceAll(/\d{1,2}:\d{2}/g, (match, offset) => {
+    // console.log(match, offset);
+    // let splitTime = match.split(':');
+    
+      
+  });
+  
+  cypherText.replaceAll(/\d+/g, (match, offset) => {
+    // console.log(match, offset)
+    console.log(swapNumberForString(match))
+  });
+  
+  /*
+  * 
+  * @params   numberString    number or string
+  * @returns                  string              the word representation of the given number
+  */
+  function swapNumberForString(numberString) {
+    console.log(numberString);
+    let digits = numberString.toString().split('').map(Number);
+    let fullNumber = parseInt(numberString)
+    // console.log(digits.join(''))
+    
+    // One digit numbers
+    if(digits.length === 1) {
+      switch(fullNumber) {
+        case 0:
+          return 'zero';
+        case 1:
+          return 'one';
+        case 2:
+          return 'two';
+        case 3:
+          return 'three';
+        case 4:
+          return 'four';
+        case 5:
+          return 'five';
+        case 6:
+          return 'six';
+        case 7:
+          return 'seven';
+        case 8:
+          return 'eight';
+        case 9:
+          return 'nine';
+      }
+    }
+
+    // Two digit numbers
+    if(digits.length === 2) {
+
+      // numbers in the teens
+      if(digits[0] < 2) {
+
+        // check for leading 0
+        if(digits[0] === 0) {
+          return swapNumberForString(digits[1]);
+        }
+
+        switch(fullNumber) {
+          case 10:
+            return 'ten';
+          case 11:
+            return 'eleven';
+          case 12:
+            return 'twelve';
+          case 13:
+            return 'thirteen';
+          case 14:
+            return 'fourteen';
+          case 15:
+            return 'fifteen';
+          case 16:
+            return 'sixteen';
+          case 17:
+            return 'seventeen';
+          case 18:
+            return 'eighteen';
+          case 19:
+            return 'nineteen';
+        }
+      }
+      switch(digits[0]) {
+          case 2:
+            return digits[1] == 0 ? 'twenty' : 'twenty ' + swapNumberForString(digits[1]);
+          case 3:
+            return digits[1] == 0 ? 'thirty' : 'thirty ' + swapNumberForString(digits[1]);
+          case 4:
+            return digits[1] == 0 ? 'fourty' : 'fourty ' + swapNumberForString(digits[1]);
+          case 5:
+            return digits[1] == 0 ? 'fifty' : 'fifty ' + swapNumberForString(digits[1]);
+          case 6:
+            return digits[1] == 0 ? 'sixty' : 'sixty ' + swapNumberForString(digits[1]);
+          case 7:
+            return digits[1] == 0 ? 'seventy' : 'seventy ' + swapNumberForString(digits[1]);
+          case 8:
+            return digits[1] == 0 ? 'eighty' : 'eighty ' + swapNumberForString(digits[1]);
+          case 9:
+            return digits[1] == 0 ? 'ninety' : 'ninety ' + swapNumberForString(digits[1]);
+      }
+    }
+
+    // Three digit numbers
+    // TODO: Check for leading or only zeros. Happens when 4 or more digit number is passed in with nothing in the hundreds place.
+    if(digits.length === 3) {
+      if(digits[1] === 0 && digits[2] === 0) {
+        return swapNumberForString(digits[0]) + ' hundred';
+      }
+      return swapNumberForString(digits[0]) + ' hundred ' + swapNumberForString(digits.slice(1).join(''));
+    }
+
+    // Four digit numbers
+    if(digits.length < 7) {
+      if(digits.slice(-3).join('') === '000') {
+        return swapNumberForString(digits.slice(0, -3).join('')) + ' thousand';
+      }
+      return swapNumberForString(digits.slice(0, -3).join('')) + ' thousand ' + swapNumberForString(digits.slice(-3).join(''));
+    }
+
+    if(digits.length < 10) {
+      if(digits.slice(-6).join('') === '000000') {
+        return swapNumberForString(digits.slice(0, -6).join('')) + ' million';
+      }
+      return swapNumberForString(digits.slice(0, -6).join('')) + ' million ' + swapNumberForString(digits.slice(-6).join(''));
+    }
+
+    if(digits.length < 13) {
+      if(digits.slice(-9).join('') === '000000000') {
+        return swapNumberForString(digits.slice(0, -9).join('')) + ' billion';
+      }
+      return swapNumberForString(digits.slice(0, -9).join('')) + ' billion ' + swapNumberForString(digits.slice(-9).join(''));
+    }
+  }
 }
 
 /*
