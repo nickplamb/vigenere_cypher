@@ -1,4 +1,4 @@
-const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -7,8 +7,6 @@ function handleSubmit(e) {
   let cypherDirection = formElements.cypherDirection.value;
   let dirtyCypherText = formElements.text.value;
   let dirtyCypherKey = formElements.key.value
-  
-  replaceNumbers(dirtyCypherText);
   
   let cypherResultObject = handleCypher(dirtyCypherText, dirtyCypherKey, cypherDirection);
   
@@ -37,33 +35,58 @@ function handleSubmit(e) {
   
 }
 
-function replaceNumbers(cypherText) {
-  cypherText.replaceAll(/\d{1,2}:\d{2}/g, (match, offset) => {
+function replaceSpecialCharacters(cypherText) {
+
+  // time in HH:MM format
+  let timeRegex = /\d{1,2}\:\d{1,2}/g; // two sets of one or two digits with a colon in the middle.
+  let convertedCypherText = cypherText.replaceAll(timeRegex, (match, offset) => {
     // console.log(match, offset);
-    // let splitTime = match.split(':');
-    
+    let splitTime = match.split(':');
+    return swapNumberForString(splitTime[0]) + (splitTime[1] === '00' ? ' oclock' : ' ' + swapNumberForString(splitTime[1]));
       
   });
   
-  cypherText.replaceAll(/\d+/g, (match, offset) => {
-    // console.log(match, offset)
-    console.log(swapNumberForString(match))
+  // numbers in n,nnn,nnn or nnnnnnnnnn formats
+  let numbersRegex = /(?:,*\d{1,3})+/g; // 1 or more non-capturing groups of 1-3 digits with an optional leading comma
+  convertedCypherText = convertedCypherText.replaceAll(numbersRegex, (match, offset) => {
+    // console.log(swapNumberForString(match))
+    return swapNumberForString(match);
   });
+
+  // dollar character
+  let dollarsRegex = /\$/g; // just a dollar sign.
+  convertedCypherText = convertedCypherText.replaceAll(dollarsRegex, 'dollars');
+
+  // percent character
+  let percentRegex = /\%/g;
+  convertedCypherText = convertedCypherText.replaceAll(percentRegex, 'percent');
+
+  return convertedCypherText;
   
   /*
-  * 
-  * @params   numberString    number or string
+  * converts up to 999,999,999,999,999 (nine hundred ninety nine trillion...) to words.
+  * @params   numberString    number, string, or array of numbers
   * @returns                  string              the word representation of the given number
   */
   function swapNumberForString(numberString) {
-    console.log(numberString);
-    let digits = numberString.toString().split('').map(Number);
-    let fullNumber = parseInt(numberString)
-    // console.log(digits.join(''))
+
+    let digits, fullNumber;
+
+    if(typeof numberString !== 'array') {
+      digits = numberString.toString().replaceAll(',', '').split('').map(elm => Number(elm));
+      fullNumber = parseInt(numberString)
+    } else (
+      fullNumber = parseInt(numberString.join(''))
+    )
     
+    // disregard leading zeros
+    if(digits[0] === 0) {
+      return swapNumberForString(digits.slice(1));
+    }
+
     // One digit numbers
     if(digits.length === 1) {
-      switch(fullNumber) {
+      switch(digits[0]) {
         case 0:
           return 'zero';
         case 1:
@@ -92,11 +115,6 @@ function replaceNumbers(cypherText) {
 
       // numbers in the teens
       if(digits[0] < 2) {
-
-        // check for leading 0
-        if(digits[0] === 0) {
-          return swapNumberForString(digits[1]);
-        }
 
         switch(fullNumber) {
           case 10:
@@ -147,29 +165,39 @@ function replaceNumbers(cypherText) {
       if(digits[1] === 0 && digits[2] === 0) {
         return swapNumberForString(digits[0]) + ' hundred';
       }
-      return swapNumberForString(digits[0]) + ' hundred ' + swapNumberForString(digits.slice(1).join(''));
+      return swapNumberForString(digits[0]) + ' hundred ' + swapNumberForString(digits.slice(1));
     }
 
-    // Four digit numbers
+    // Thousands - 1,000 - 999,999
     if(digits.length < 7) {
       if(digits.slice(-3).join('') === '000') {
-        return swapNumberForString(digits.slice(0, -3).join('')) + ' thousand';
+        return swapNumberForString(digits.slice(0, -3)) + ' thousand';
       }
-      return swapNumberForString(digits.slice(0, -3).join('')) + ' thousand ' + swapNumberForString(digits.slice(-3).join(''));
+      return swapNumberForString(digits.slice(0, -3)) + ' thousand ' + swapNumberForString(digits.slice(-3));
     }
 
+    // millions - 1,000,000 - 999,999,999
     if(digits.length < 10) {
       if(digits.slice(-6).join('') === '000000') {
-        return swapNumberForString(digits.slice(0, -6).join('')) + ' million';
+        return swapNumberForString(digits.slice(0, -6)) + ' million';
       }
-      return swapNumberForString(digits.slice(0, -6).join('')) + ' million ' + swapNumberForString(digits.slice(-6).join(''));
+      return swapNumberForString(digits.slice(0, -6)) + ' million ' + swapNumberForString(digits.slice(-6));
     }
 
+    // Billions
     if(digits.length < 13) {
       if(digits.slice(-9).join('') === '000000000') {
         return swapNumberForString(digits.slice(0, -9).join('')) + ' billion';
       }
       return swapNumberForString(digits.slice(0, -9).join('')) + ' billion ' + swapNumberForString(digits.slice(-9).join(''));
+    }
+
+    // Trillions
+    if(digits.length < 16) {
+      if(digits.slice(-2).join('') === '000000000') {
+        return swapNumberForString(digits.slice(0, -12).join('')) + ' trillion';
+      }
+      return swapNumberForString(digits.slice(0, -12).join('')) + ' trillion ' + swapNumberForString(digits.slice(-12).join(''));
     }
   }
 }
@@ -186,7 +214,7 @@ function handleCypher(dirtyCypherText, dirtyCypherKey, cypherDirection) {
   
   let regex = /[^A-Za-z]/g;
   // TODO: Convert numbers into words to keep meaning.
-  let cypherTextArray = dirtyCypherText.toLowerCase().replaceAll(regex, '').split('');
+  let cypherTextArray =   replaceSpecialCharacters(dirtyCypherText.toLowerCase()).replaceAll(regex, '').split('');
   let cypherKeyArray = dirtyCypherKey.toLowerCase().replaceAll(regex, '').split('');
 
   if (cypherDirection === 'crack') {
